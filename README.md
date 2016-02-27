@@ -1,0 +1,1 @@
+# ES6 template with Brunch

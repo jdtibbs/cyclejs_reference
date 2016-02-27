@@ -1,0 +1,14 @@
+body {
+	/**/
+}
+button {
+	background-color: #50BF3F;
+	border-style: none;
+	margin: 2px 5px 2px 5px;
+	padding: 8px 8px 8px 8px;
+}
+.label-number {
+	margin: 2px 5px 2px 5px;
+	padding: 8px 8px 8px 8px;
+}
+
