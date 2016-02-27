@@ -41,11 +41,11 @@
 	}
 
 	function main(sources) {
-		const actions = intent(sources.DOM);
-		const number$ = model(actions);
-
+		let actions = intent(sources.DOM);
+		let state$ = model(actions);
+		let vtree$ = view(state$);
 		return {
-			DOM: view(number$)
+			DOM: vtree$
 		};
 	}
 
