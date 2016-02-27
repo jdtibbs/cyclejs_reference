@@ -5,44 +5,47 @@
 	from '@cycle/dom';
 	import Rx from 'rx';
 
-	// source: is input (read) effects.
-	// sink: is output (write) effects.
-
-	// main: is logic
-	// returns: sinks
-	function main(sources) {
-		// build the source streams:
-		const decrementClick$ = sources.DOM.select('#dec').events('click');
-		const incrementClick$ = sources.DOM.select('#inc').events('click');
-
-		const decrementAction$ = decrementClick$.map(ev => -1);
-		const incrementAction$ = incrementClick$.map(ev => +1);
-
-		const number$ = Rx.Observable
+	function model(actions) {
+		return Rx.Observable
 			.of(0)
-			.merge(decrementAction$)
-			.merge(incrementAction$)
+			.merge(actions.decrementAction$)
+			.merge(actions.incrementAction$)
 			.scan((prev, curr) => prev + curr);
+	}
 
-		// return sinks:
+	function view(state$) {
+		return state$.map(number =>
+			div([
+				p([
+					label({
+						className: 'label-number'
+					}, String(number))
+				]),
+				button('#dec', {
+					className: 'btn btn-default',
+				}, 'Decrement'),
+				button('#inc', {
+						attributes: {
+							class: 'btn btn-default'
+						}
+					},
+					'Increment'),
+			]));
+	}
+
+	function intent(DOM) {
 		return {
-			DOM: number$.map(number =>
-				div([
-					p([
-						label({
-							className: 'label-number'
-						}, String(number))
-					]),
-					button('#dec', {
-						className: 'btn btn-default',
-					}, 'Decrement'),
-					button('#inc', {
-							attributes: {
-								class: 'btn btn-default'
-							}
-						},
-						'Increment'),
-				]))
+			decrementAction$: DOM.select('#dec').events('click').map(ev => -1),
+			incrementAction$: DOM.select('#inc').events('click').map(ev => +1)
+		};
+	}
+
+	function main(sources) {
+		const actions = intent(sources.DOM);
+		const number$ = model(actions);
+
+		return {
+			DOM: view(number$)
 		};
 	}
 
