@@ -5,6 +5,7 @@
 	from '@cycle/dom';
 	import Rx from 'rx';
 
+	// model: given action Observables, manage state, returning Observable. 
 	function model(actions) {
 		return Rx.Observable
 			.of(0)
@@ -13,6 +14,7 @@
 			.scan((prev, curr) => prev + curr);
 	}
 
+	// view: represent visual state of the model.  
 	function view(state$) {
 		return state$.map(number =>
 			div([
@@ -33,6 +35,7 @@
 			]));
 	}
 
+	// intent: listen for user input, from DOM driver source, returns action Observables.
 	function intent(DOM) {
 		return {
 			decrementAction$: DOM.select('#dec').events('click').map(ev => -1),
@@ -41,11 +44,19 @@
 	}
 
 	function main(sources) {
-		let actions = intent(sources.DOM);
-		let state$ = model(actions);
-		let vtree$ = view(state$);
+		// monitor user input...
+		// let actions = intent(sources.DOM);
+		// user input to state...
+		// let state$ = model(actions);
+		// state to view...
+		// let vtree$ = view(state$);
+		// view to DOM!
+		// return {
+		// DOM: vtree$
+		// };
+		// or more concisely...
 		return {
-			DOM: vtree$
+			DOM: view(model(intent(sources.DOM)))
 		};
 	}
 
