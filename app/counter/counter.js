@@ -61,10 +61,10 @@
 	}
 
 
-	const drivers = {
+	const sources = {
 		DOM: makeDOMDriver('#app')
 	};
 
-	Cycle.run(main, drivers);
+	Cycle.run(main, sources);
 
 	export default {};
