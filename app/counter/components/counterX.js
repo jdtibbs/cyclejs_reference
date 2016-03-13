@@ -5,13 +5,14 @@
 	from '@cycle/dom';
 	import Rx from 'rx';
 
-	import addButton from './addButton';
+	import decrementButton from './decrement.button';
+	import incrementButton from './increment.button';
 
-	function model(actions) {
+	function model(intent) {
 		return Rx.Observable
 			.of(0)
-			.merge(actions.decrementAction$)
-			.merge(actions.incrementAction$)
+			.merge(intent.decrementAction$)
+			.merge(intent.incrementAction$)
 			.scan((prev, curr) => prev + curr);
 	}
 
@@ -23,22 +24,15 @@
 						className: 'label-number'
 					}, String(number))
 				]),
-				button('#dec', {
-					className: 'btn btn-default',
-				}, 'Decrement'),
-				button('#inc', {
-						attributes: {
-							class: 'btn btn-default'
-						}
-					},
-					'Increment'),
+				decrementButton.view$,
+				incrementButton.view$
 			]));
 	}
 
 	function intent(DOM) {
 		return {
-			decrementAction$: DOM.select('#dec').events('click').map(ev => -1),
-			incrementAction$: DOM.select('#inc').events('click').map(ev => +1)
+			decrementAction$: decrementButton.intent$,
+			incrementAction$: incrementButton.intent$
 		};
 	}
 
@@ -49,10 +43,10 @@
 	}
 
 
-	const drivers = {
+	const sources = {
 		DOM: makeDOMDriver('#app')
 	};
 
-	Cycle.run(main, drivers);
+	Cycle.run(main, sources);
 
 	export default {};
