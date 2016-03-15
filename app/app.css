@@ -1,6 +1,9 @@
 body {
 	/**/
 }
+button {
+	margin-right: 8px;
+}
 .countButton {
 	width: 120px;
 }
