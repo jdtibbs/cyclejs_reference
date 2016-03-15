@@ -11,7 +11,10 @@
 		DOM, props$
 	}) {
 		let initValue$ = props$.map(props => props.init).first();
-		let newValue$ = DOM.select('.countButton').events('click').map(e => +1);
+		let action$ = props$.map(props => props.action).first();
+		// let newValue$ = DOM.select('.countButton').events('click').map(e => +1);
+		let click$ = DOM.select('.countButton').events('click');
+		let newValue$ = Observable.combineLatest(click$, action$, (click, action) => action);
 		let model$ = initValue$
 			.merge(newValue$)
 			.scan((prev, curr) => prev + curr);

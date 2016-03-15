@@ -13,7 +13,8 @@ function Counter({
 	DOM
 }) {
 	let IncrementButton = isolate(Button);
-	let addProps$ = Observable.just({
+	let addProps$ = Observable.of({
+		action: +1,
 		init: 0,
 		label: 'Increment'
 	});
