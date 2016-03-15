@@ -10,7 +10,6 @@
 	function Button({
 		DOM, props$
 	}) {
-		let initValue$ = props$.map(props => props.init).first();
 		let action$ = props$.map(props => props.action).first();
 		let click$ = DOM.select('.countButton').events('click');
 		let model$ = Observable.combineLatest(click$, action$, (click, action) => action);

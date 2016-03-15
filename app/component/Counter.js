@@ -16,12 +16,10 @@ function Counter({
 	let IncrementButton = isolate(Button);
 	let decrementProps$ = Observable.of({
 		action: -1,
-		init: 0,
 		label: 'Decrement'
 	});
 	let incrementProps$ = Observable.of({
 		action: +1,
-		init: 0,
 		label: 'Increment'
 	});
 	let decrementButton = DecrementButton({
