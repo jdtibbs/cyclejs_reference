@@ -12,12 +12,12 @@ import Button from './Button';
 function Counter({
 	DOM
 }) {
-	let AddButton = isolate(Button);
+	let IncrementButton = isolate(Button);
 	let addProps$ = Observable.just({
 		init: 0,
-		label: 'Add'
+		label: 'Increment'
 	});
-	let addButton = AddButton({
+	let addButton = IncrementButton({
 		DOM, props$: addProps$
 	});
 
